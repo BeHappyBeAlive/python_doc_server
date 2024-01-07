@@ -272,3 +272,23 @@ for (int i = 0; i < k; i++) {
             fast += 1
         return slow
 ```
+
+#### 算法步骤：
+
+
+
+> 输入：给你一个nums数组，非递减数组
+>
+> 算法逻辑：
+>    边界情况：如果nums为空列表，那么返回值为0
+>    前提条件：fast、slow指向数组的第二个元素，fast、slow=1
+>    循环：
+>         跳出循环条件：fast<len(nums)
+>         逻辑：
+>               fast、fast-1比较
+>                      1.如果二者值相等，fast向右移动一个，slow不变，fast++
+>
+>                      2. 如果二者不同，nums[slow]=nums[fast]，slow++，fast++
+>       返回值：
+>                 返回slow
+>       输出：输出一个已经去重的nums数组，同时给出目标数据的个数，不需要关注目标数据后面的值
