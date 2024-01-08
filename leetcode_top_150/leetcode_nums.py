@@ -1,4 +1,6 @@
+import random
 from typing import List
+import collections
 
 
 class Solution:
@@ -95,11 +97,41 @@ class Solution:
                 slow += 1
             fast += 1
         return slow
+
+    # hash表的方式
     def majorityElement(self, nums: List[int]) -> int:
-        pass
+        counts = collections.Counter(nums)
+        return max(counts.keys(), key=counts.get)
+
+    # 先排序后拿值的方式
     def majorityElement1(self, nums: List[int]) -> int:
-        pass
+        nums.sort()
+        # // 双斜杠除法属于整数除法，保留整数
+        # / 单斜杠触发属于浮点数触发，结果保留小数
+        return nums[len(nums) // 2]
+
+    # 基于上面方法的基础，先随机拿数组中的一个值，然后认为他就是数组中出现超过n/2的元素，然后去验证他是不是超过n/2
+    # 如果不满足，继续枚举下一个元素，不过这种算法可能陷入死循环，是最不好的情况
     def majorityElement2(self, nums: List[int]) -> int:
-        pass
+        majority_count = len(nums) // 2
+        while True:
+            candidate = random.choice(nums)
+            sum = 0
+            for num in nums:
+                if num == candidate:
+                    sum += 1
+            if sum > majority_count:
+                return candidate
+
+    # Boyer-Moore 投票算法
     def majorityElement3(self, nums: List[int]) -> int:
-        pass
+        count = 0
+        candidate = None
+        for num in nums:
+            if count == 0:
+                candidate = num
+            if num == candidate:
+                count += 1
+            else:
+                count -= 1
+        return candidate
