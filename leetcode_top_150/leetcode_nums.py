@@ -49,6 +49,12 @@ class Solution:
                 sorts.append(nums2[p2])
                 p2 += 1
         nums1[:] = sorts
+        index = 0
+        for elem in sorts:
+            if index >= len(nums1):
+                return
+            nums1[index] = elem
+            index += 1
 
     # 27.移除元素
     # 正向双指针
@@ -135,3 +141,23 @@ class Solution:
             else:
                 count -= 1
         return candidate
+    # 168.轮转数组(https://leetcode.cn/problems/rotate-array/)
+    # 使用额外的数组
+    def rotate(self, nums, k):
+        n = len(nums)
+        new_arr = [0] * n
+        for i in range(n):
+            new_arr[(i + k) % n] = nums[i]
+        nums[:] = new_arr
+    # 数组翻转
+    def reverse(self, nums, start, end):
+        while start < end:
+            nums[start], nums[end] = nums[end], nums[start]
+            start, end = start + 1, end - 1
+
+    def rotate(self, nums: List[int], k: int) -> None:
+        n = len(nums)
+        k %= n
+        self.reverse(nums, 0, n - 1)
+        self.reverse(nums, 0, k - 1)
+        self.reverse(nums, k, n - 1)
