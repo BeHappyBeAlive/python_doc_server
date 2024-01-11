@@ -161,3 +161,40 @@ class Solution:
         self.reverse(nums, 0, n - 1)
         self.reverse(nums, 0, k - 1)
         self.reverse(nums, k, n - 1)
+    # 121. 买卖股票的最佳时机
+    # 只是返回最大利润
+    def maxProfit(self, prices: List[int]) -> int:
+        int_max = int(1e9)
+        min_price = int_max
+        max_profile = 0
+        for price in prices:
+            max_profile = max(price - min_price, max_profile)
+            min_price = min(price, min_price)
+        return max_profile
+    # 122. 买卖股票的最佳时机 II 此题目中可以在规定的数列里面随时卖出，需要求出总利润最大值
+    # 动态规划
+    def maxProfit(self, prices: List[int]) -> int:
+        # prices[i]表示第i天的股票价格
+        # dp[i][0]表示当天完成交易后，手里面没有股票
+        #      1. 前一天就没有股票，所以收益为dp[i-1][0]
+        #      2. 前一天手里有股票，需要将昨天的收益，加上今天股票的价格，所以收益为dp[i-1][1]+prices[i]
+        # dp[i][1]表示当天完成交易后，手里还有股票
+        #      1. 前一天就有股票，所以收益为dp[i-1][1]
+        #      2. 前一天没有股票，需要在今天买入股票，所以要扣除今天的股票价格所以收益为dp[i-1][0]-prices[i]
+        #  初始值为： dp[0][0]=0  dp[0][1]=-prices[i]
+        #  由于最后一天手里持有股票的收益肯定小于或者等于不持有股票的收益  所以dp[n-1][0]>dp[n-1][1]
+        #  所以最大利润输出dp[n-1][0]
+        n = len(prices)
+        dp = [[0] * 2 for i in range(n)]
+        dp[0][0], dp[0][1] = 0, -prices[0]
+        for i in range(1, n):
+            dp[i][0] = max(dp[i - 1][0], dp[i - 1][1] + prices[i])
+            dp[i][1] = max(dp[i - 1][1], dp[i - 1][0] - prices[i])
+        return dp[n - 1][0]
+    # 贪心算法
+    def maxProfit(self, prices: List[int]) -> int:
+        ans = 0
+        n = len(prices)
+        for i in range(1, n):
+            ans += max(0, prices[i] - prices[i - 1])
+        return ans
