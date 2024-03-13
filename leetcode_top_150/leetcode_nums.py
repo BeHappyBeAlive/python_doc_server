@@ -141,6 +141,7 @@ class Solution:
             else:
                 count -= 1
         return candidate
+
     # 168.轮转数组(https://leetcode.cn/problems/rotate-array/)
     # 使用额外的数组
     def rotate(self, nums, k):
@@ -149,6 +150,7 @@ class Solution:
         for i in range(n):
             new_arr[(i + k) % n] = nums[i]
         nums[:] = new_arr
+
     # 数组翻转
     def reverse(self, nums, start, end):
         while start < end:
@@ -161,6 +163,7 @@ class Solution:
         self.reverse(nums, 0, n - 1)
         self.reverse(nums, 0, k - 1)
         self.reverse(nums, k, n - 1)
+
     # 121. 买卖股票的最佳时机
     # 只是返回最大利润
     def maxProfit(self, prices: List[int]) -> int:
@@ -171,6 +174,7 @@ class Solution:
             max_profile = max(price - min_price, max_profile)
             min_price = min(price, min_price)
         return max_profile
+
     # 122. 买卖股票的最佳时机 II 此题目中可以在规定的数列里面随时卖出，需要求出总利润最大值
     # 动态规划
     def maxProfit(self, prices: List[int]) -> int:
@@ -191,6 +195,7 @@ class Solution:
             dp[i][0] = max(dp[i - 1][0], dp[i - 1][1] + prices[i])
             dp[i][1] = max(dp[i - 1][1], dp[i - 1][0] - prices[i])
         return dp[n - 1][0]
+
     # 贪心算法
     def maxProfit(self, prices: List[int]) -> int:
         ans = 0
@@ -198,3 +203,19 @@ class Solution:
         for i in range(1, n):
             ans += max(0, prices[i] - prices[i - 1])
         return ans
+
+    # 55. 跳跃游戏
+    # 贪心算法
+    def canJump(self, nums: List[int]) -> bool:
+        n, rightmost = len(nums), 0
+        for i in range(n):
+            if i <= rightmost:
+                rightmost = max(rightmost, i + nums[i])
+                if rightmost >= n - 1:
+                    return True
+        return False
+    # 45. 跳跃游戏 II
+    def jump(self, nums: List[int]) -> int:
+        
+        pass
+
